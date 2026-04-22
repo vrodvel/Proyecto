@@ -78,25 +78,25 @@ def leer_datos(tabla):
 
 # --- CRUD BÁSICO ---
 
-def crear_jugador(n, a, d, g, e):
-    c = conectar()
-    c.execute("INSERT INTO jugadores (nombre, apellidos, dorsal, goles, id_equipo) VALUES (?,?,?,?,?)", (n,a,d,g,e))
-    c.commit()
-    c.close()
+def crear_jugador(nombre, apellidos, dorsal, goles, id_equipo):
+    connect = conectar()
+    connect.execute("INSERT INTO jugadores (nombre, apellidos, dorsal, goles, id_equipo) VALUES (?,?,?,?,?)", (nombre, apellidos, dorsal, goles, id_equipo))
+    connect.commit()
+    connect.close()
     print("Jugador guardado.")
 
 def actualizar_goles(id_j, gls):
-    c = conectar()
-    c.execute("UPDATE jugadores SET goles = ? WHERE id_jugador = ?", (gls, id_j))
-    c.commit()
-    c.close()
+    connect = conectar()
+    connect.execute("UPDATE jugadores SET goles = ? WHERE id_jugador = ?", (gls, id_j))
+    connect.commit()
+    connect.close()
     print("Goles actualizados.")
 
 def eliminar_jugador(id_j):
-    c = conectar()
-    c.execute("DELETE FROM jugadores WHERE id_jugador = ?", (id_j,))
-    c.commit()
-    c.close()
+    connect = conectar()
+    connect.execute("DELETE FROM jugadores WHERE id_jugador = ?", (id_j,))
+    connect.commit()
+    connect.close()
     print("Jugador eliminado.")
 
 # --- MENÚ ---
@@ -113,8 +113,8 @@ def menu():
         elif op == "2": leer_datos("jugadores")
         elif op == "3": leer_datos("trofeos")
         elif op == "4":
-            n = input("Nombre: "); a = input("Apellidos: "); d = int(input("Dorsal: ")); g = int(input("Goles: ")); e = int(input("ID Equipo: "))
-            crear_jugador(n, a, d, g, e)
+            nombre = input("Nombre: "); apellidos = input("Apellidos: "); dorsal = int(input("Dorsal: ")); goles = int(input("Goles: ")); id_equipo = int(input("ID Equipo: "))
+            crear_jugador(nombre, apellidos, dorsal, goles, id_equipo)
         elif op == "5":
             id_j = int(input("ID Jugador: ")); g_n = int(input("Nuevos goles: "))
             actualizar_goles(id_j, g_n)
