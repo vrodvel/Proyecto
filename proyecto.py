@@ -1,9 +1,9 @@
 import sqlite3
 
 def conectar():
-    conn = sqlite3.connect('base_de_datos.db')
-    conn.execute("PRAGMA foreign_keys = ON;")
-    return conn
+    connect = sqlite3.connect('base_de_datos.db')
+    connect.execute("PRAGMA foreign_keys = ON;")
+    return connect
 
 def inicializar_db():
     connect = conectar()
@@ -85,16 +85,16 @@ def crear_jugador(nombre, apellidos, dorsal, goles, id_equipo):
     connect.close()
     print("Jugador guardado.")
 
-def actualizar_goles(id_j, gls):
+def actualizar_goles(id_jugador, goles):
     connect = conectar()
-    connect.execute("UPDATE jugadores SET goles = ? WHERE id_jugador = ?", (gls, id_j))
+    connect.execute("UPDATE jugadores SET goles = ? WHERE id_jugador = ?", (goles, id_jugador))
     connect.commit()
     connect.close()
     print("Goles actualizados.")
 
-def eliminar_jugador(id_j):
+def eliminar_jugador(id_jugador):
     connect = conectar()
-    connect.execute("DELETE FROM jugadores WHERE id_jugador = ?", (id_j,))
+    connect.execute("DELETE FROM jugadores WHERE id_jugador = ?", (id_jugador,))
     connect.commit()
     connect.close()
     print("Jugador eliminado.")
@@ -116,11 +116,11 @@ def menu():
             nombre = input("Nombre: "); apellidos = input("Apellidos: "); dorsal = int(input("Dorsal: ")); goles = int(input("Goles: ")); id_equipo = int(input("ID Equipo: "))
             crear_jugador(nombre, apellidos, dorsal, goles, id_equipo)
         elif op == "5":
-            id_j = int(input("ID Jugador: ")); g_n = int(input("Nuevos goles: "))
-            actualizar_goles(id_j, g_n)
+            id_jugador = int(input("ID Jugador: ")); goles_nuevos = int(input("Nuevos goles: "))
+            actualizar_goles(id_jugador, goles_nuevos)
         elif op == "6":
-            id_j = int(input("ID Jugador: "))
-            eliminar_jugador(id_j)
+            id_jugador = int(input("ID Jugador: "))
+            eliminar_jugador(id_jugador)
         elif op in ["7", "salir"]: break
 
 if __name__=="__main__":
