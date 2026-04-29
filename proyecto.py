@@ -31,14 +31,14 @@ def inicializar_db():
                         id_equipo INTEGER,
                         FOREIGN KEY(id_equipo) REFERENCES Equipo(id_equipo) ON DELETE CASCADE)''') 
    
-    connect.commit() # ARREGLO 1: Guardar la estructura de las tablas
+    connect.commit()
     connect.close()
-
+# Insertamos los datos iniciales de las tablas
 def insertar_datos_iniciales():
     connect = conectar()
     cursor = connect.cursor()
     try:
-        # ARREGLO 2: Corregida la forma de comprobar si la tabla está vacía
+        # Comprobamos si la tabla está vacía
         cursor.execute("SELECT COUNT(*) FROM Equipo")
         conteo = cursor.fetchone()[0]
         
@@ -52,13 +52,13 @@ def insertar_datos_iniciales():
             trofeos = [(1, 'Liga Española', 28, 2), (2, 'Champions', 15, 2), (3, 'Champions', 1, 3)]
             cursor.executemany("INSERT INTO trofeos VALUES (?, ?, ?, ?)", trofeos)
             
-            connect.commit() # ARREGLO 3: Guardar los datos insertados
+            connect.commit() # Guardamos los datos insertados
             print(">>> Datos del Real Madrid y otros equipos cargados.")
     except Exception as e:
         print(f"Error al insertar: {e}")
     finally:
         connect.close()
-
+# Se leen los datos de las tablas para saber su contenido.
 def leer_datos(tabla):
     connect = conectar()
     cursor = connect.cursor()
@@ -71,12 +71,11 @@ def leer_datos(tabla):
             print("No hay datos en esta tabla.")
         else:
             for fila in filas:
-                # ARREGLO 4: Formato visual limpio sin paréntesis ni comas
                 print(" | ".join(map(str, fila)))
     finally:
         connect.close()
 
-# --- CRUD BÁSICO ---
+# --- OPERACIONES CRUD ---
 
 def crear_jugador(nombre, apellidos, dorsal, goles, id_equipo):
     connect = conectar()
@@ -98,14 +97,14 @@ def eliminar_jugador(id_jugador):
     connect.commit()
     connect.close()
     print("Jugador eliminado.")
-
+    
 # --- MENÚ ---
 
 def menu():
     inicializar_db()
-    insertar_datos_iniciales() # Se asegura de que los datos existan al arrancar
+    insertar_datos_iniciales() # Nos aseguramos de que se mantengan los datos iniciales
     while True:
-        print("\n=== SISTEMA DE FÚTBOL ===")
+        print("\n=== TABLAS DE FÚTBOL ===")
         print("1. Ver Equipos\n2. Ver Jugadores\n3. Ver Trofeos\n4. Añadir Jugador\n5. Actualizar Goles\n6. Eliminar Jugador\n7. Salir")
         op = input("Selecciona: ")
         
